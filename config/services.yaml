@@ -8,3 +8,8 @@ services:
   Pixiekat\AlicantoConsult\:
     resource: '../src/*'
     exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+
+  Pixiekat\AlicantoConsult\Services\:
+    resource: '../src/Services/*'
+    public: true
+    tags: ['controller.service_arguments']
