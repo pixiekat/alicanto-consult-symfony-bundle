@@ -1,0 +1,27 @@
+{
+  "name": "pixiekat/alicanto-consult-symfony-bundle",
+  "type": "symfony-bundle",
+  "autoload": {
+      "psr-4": {
+          "Pixiekat\\AlicantoConsultBundle\\": "src/"
+      }
+  },
+  "autoload-dev": {
+      "psr-4": {
+          "Pixiekat\\AlicantoConsultBundle\\Tests\\": "tests/"
+      }
+  },
+  "authors": [
+      {
+          "name": "Katie Elizabeth",
+          "email": "katie@pixiekitten.net"
+      }
+  ],
+  "config": {
+      "sort-packages": true
+  },
+  "require": {
+      "php": "^8.3"
+  },
+  "require-dev": {}
+}
