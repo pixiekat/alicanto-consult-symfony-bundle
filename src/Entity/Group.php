@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Pixiekat\AlicantoConsult\Entity;
 
+use Pixiekat\AlicantoConsult\Entity;
 use Pixiekat\AlicantoConsult\Repository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +23,11 @@ class Group {
   #[ORM\Column(type: "string", length: 255, nullable: true)]
   private $groupEmail;
 
+  #[Assert\Type(type: Entity\GroupPreferences::class)]
+  #[Assert\Valid]
+  #[ORM\OneToOne(mappedBy: 'group', cascade: ['persist', 'remove'])]
+  private ?Entity\GroupPreferences $groupPreferences = null;
+
   public function getId(): ?int {
     return $this->id;
   }
@@ -38,6 +44,10 @@ class Group {
     return $this->groupEmail;
   }
 
+  public function getGroupPreferences(): ?Entity\GroupPreferences {
+    return $this->groupPreferences;
+  }
+
   public function setName(string $name): self {
     $this->name = $name;
     return $this;
@@ -50,6 +60,17 @@ class Group {
 
   public function setGroupEmail(?string $groupEmail): self {
     $this->groupEmail = $groupEmail;
+    return $this;
+  }
+
+  public function setGroupPreferences(?Entity\GroupPreferences $groupPreferences): self {
+    // set the owning side of the relation if necessary
+    if ($groupPreferences->getGroup() !== $this) {
+      $groupPreferences->setGroup($this);
+    }
+
+    $this->groupPreferences = $groupPreferences;
+
     return $this;
   }
 }

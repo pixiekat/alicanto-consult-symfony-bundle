@@ -87,6 +87,20 @@ class GroupManager {
 
     return $this;
   }
+
+  /**
+   * Checks if this group is private or not.
+   * 
+   * @return bool
+   */
+  public function isPrivate(): bool {
+    if (!$group = $this->getGroup()) {
+      throw new \Exception('No group set');
+    }
+
+    return $group->getGroupPreferences()->isPrivate() ?? false;
+  }
+
   /**
    * Update a group.
    */

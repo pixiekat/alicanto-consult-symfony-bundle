@@ -2,9 +2,9 @@
 namespace Pixiekat\AlicantoConsult\Form;
 
 use Pixiekat\AlicantoConsult\Entity;
+use Pixiekat\AlicantoConsult\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as FormTypes;
-use Symfony\Component\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints;
@@ -19,6 +19,9 @@ class GroupFormType extends AbstractType {
       ])
       ->add('groupEmail', FormTypes\EmailType::class, [
         'required' => false,
+      ])
+      ->add('groupPreferences', Form\GroupPreferencesFormType::class, [
+        'label' => 'Group Preferences',
       ])
       ->add('submit', FormTypes\SubmitType::class, [
         'attr' => [

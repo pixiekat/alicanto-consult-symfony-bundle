@@ -30,17 +30,20 @@
                   <th scope="col"><a href="{{ path('alicanto_consult_groups_list', {'sort': 'name', 'direction': (current_sort == 'name' and current_direction == 'desc') ? 'asc' : 'desc'}) }}">Name</a></th>
                   <th scope="col"><a href="{{ path('alicanto_consult_groups_list', {'sort': 'description', 'direction': (current_sort == 'description' and current_direction == 'desc') ? 'asc' : 'desc' }) }}">Description</a></th>
                   <th scope="col">Group Email</th>
+                  <th scope="col">Privacy</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {% if groups is not empty %}
                   {% for group in groups %}
+                    {% set groupManager = get_group_manager().setGroup(group) %}
                     <tr class="">
                       <td scope="row">{{ group.id }}</td>
                       <td>{{ group.name }}</td>
                       <td>{{ group.description }}</td>
                       <td>{{ group.groupEmail }}</td>
+                      <td>{{ groupManager.isPrivate ? 'Private' : 'Public' }}</td>
                       <td>
                         <a
                           class="btn btn-primary"
@@ -55,7 +58,7 @@
                   {% endfor %}
                 {% else %}
                   <tr class="">
-                    <td scope="row" class="text-center" colspan="5">No Groups Found.</td>
+                    <td scope="row" class="text-center" colspan="6">No Groups Found.</td>
                   </tr>
                 {% endif %}
               </tbody>
