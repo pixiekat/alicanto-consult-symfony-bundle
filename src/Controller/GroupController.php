@@ -30,7 +30,7 @@ class GroupController extends AbstractController {
     $sort = $request->query->get('sort') ?? 'name';
     $direction = $request->query->get('direction') ?? 'ASC';
 
-    $groups = $this->entityManager->getRepository(Entity\Group::class)->findBy([], [$sort => $direction]);
+    $groups = $this->groupManager->getAll($sort, $direction);
     return $this->render('@PixiekatAlicantoConsult/groups/list.html.twig', [
       'groups' => $groups,
     ]);

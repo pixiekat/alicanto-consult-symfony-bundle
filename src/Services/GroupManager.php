@@ -4,9 +4,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Pixiekat\AlicantoConsult\Entity;
 use Psr\Log\LoggerInterface as Logger;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class GroupManager {
+
+  const CACHE_TTL = 3600;
+  const CACHE_BETA = 1.0;
 
   /**
    * The constructor.
@@ -32,6 +36,29 @@ class GroupManager {
       $this->logger->error('Failed to add group: ' . $e->getMessage());
     }
     return false;
+  }
+
+  /**
+   * Get all groups.
+   */
+  public function getAll(string $sort = 'name', string $direction = 'asc'): array {
+
+    $groups = $this->cache->get('groups__all', function (ItemInterface $item) use ($sort, $direction): ?array {
+      $this->logger->debug('groups__all cache miss: refreshing');
+      $expiresAt = (new \DateTime())->setTimeZone(new \DateTimeZone('America/New_York'))->setTimestamp(strtotime('+1 hour'));
+      $item->tag(['group']);
+
+      $groups = [];
+      try {
+        $groups = $this->entityManager->getRepository(Entity\Group::class)->findBy([], [$sort => $direction]);
+      }
+      catch (\Exception $exception) {
+        $item->expiresAt((new \DateTime())->setTimeZone(new \DateTimeZone('America/New_York'))->setTimestamp(strtotime('now')));
+      }
+      return $groups;
+    }, self::CACHE_BETA);
+
+    return $groups;
   }
 
   /**
