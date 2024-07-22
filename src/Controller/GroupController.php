@@ -45,6 +45,7 @@ class GroupController extends AbstractController {
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+      $this->groupManager->setGroup($group);
       $result = $this->groupManager->add($group);
       if (!$result) {
         $this->addFlash('error', 'Failed to add group');
@@ -68,6 +69,7 @@ class GroupController extends AbstractController {
 
     if ($form->isSubmitted() && $form->isValid()) {
       try {
+        $this->groupManager->setGroup($group);
         $result = $this->groupManager->update($group);
         if (!$result) {
           $this->addFlash('error', 'Failed to update group');
@@ -115,6 +117,7 @@ class GroupController extends AbstractController {
       }
       if ($form->get('submit')->isClicked()) {
         try {
+          $this->groupManager->setGroup($group);
           $result = $this->groupManager->delete($group);
           if (!$result) {
             $this->addFlash('error', 'Failed to delete group');

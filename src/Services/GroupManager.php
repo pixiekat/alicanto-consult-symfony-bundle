@@ -13,6 +13,13 @@ class GroupManager {
   const CACHE_BETA = 1.0;
 
   /**
+   * The current group.
+   *
+   * @var Entity\Group $group
+   */
+  protected Entity\Group $group;
+
+  /**
    * The constructor.
    */
   public function __construct(
@@ -25,7 +32,11 @@ class GroupManager {
   /**
    * Add a group.
    */
-  public function add(Entity\Group $group): ?Entity\Group {
+  public function add(): ?Entity\Group {
+    if (!$group = $this->getGroup()) {
+      throw new \Exception('No group set');
+    }
+
     try {
       $this->entityManager->persist($group);
       $this->entityManager->flush();
@@ -62,9 +73,27 @@ class GroupManager {
   }
 
   /**
+   * Gets the current group.
+   */
+  public function getGroup(): Entity\Group {
+    return $this->group;
+  }
+
+  /**
+   * Sets the current group.
+   */
+  public function setGroup(Entity\Group $group): static {
+    $this->group = $group;
+
+    return $this;
+  }
+  /**
    * Update a group.
    */
-  public function update(Entity\Group $group): ?Entity\Group {
+  public function update(): ?Entity\Group {
+    if (!$group = $this->getGroup()) {
+      throw new \Exception('No group set');
+    }
     try {
       $this->entityManager->persist($group);
       $this->entityManager->flush();
@@ -80,7 +109,11 @@ class GroupManager {
   /**
    * Delete a group.
    */
-  public function delete(Entity\Group $group): bool {
+  public function delete(): bool {
+    if (!$group = $this->getGroup()) {
+      throw new \Exception('No group set');
+    }
+
     try {
       $this->entityManager->remove($group);
       $this->entityManager->flush();
