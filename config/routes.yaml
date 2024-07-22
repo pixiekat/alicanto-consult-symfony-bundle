@@ -1,0 +1,3 @@
+alicanto_consult_bundle.routes:
+    resource: '../src/Controller/'
+    type: attribute

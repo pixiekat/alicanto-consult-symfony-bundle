@@ -1,0 +1,10 @@
+parameters:
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Pixiekat\AlicantoConsultBundle\:
+    resource: '../src/*'
+    exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
