@@ -5,6 +5,6 @@ services:
     autowire: true
     autoconfigure: true
 
-  Pixiekat\AlicantoConsultBundle\:
+  Pixiekat\AlicantoConsult\:
     resource: '../src/*'
     exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'

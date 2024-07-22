@@ -3,12 +3,12 @@
   "type": "symfony-bundle",
   "autoload": {
       "psr-4": {
-          "Pixiekat\\AlicantoConsultBundle\\": "src/"
+          "Pixiekat\\AlicantoConsult\\": "src/"
       }
   },
   "autoload-dev": {
       "psr-4": {
-          "Pixiekat\\AlicantoConsultBundle\\Tests\\": "tests/"
+          "Pixiekat\\AlicantoConsult\\Tests\\": "tests/"
       }
   },
   "authors": [

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Pixiekat\AlicantoConsultBundle\Controller;
+namespace Pixiekat\AlicantoConsult\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +14,6 @@ class DashboardController extends AbstractController {
 
   #[Route('/', name: 'alicanto_consult_dashboard')]
   public function index(): Response {
-    return $this->render('@PixiekatAlicantoConsultBundle/dashboard/index.html.twig', []);
+    return $this->render('@PixiekatAlicantoConsult/dashboard/index.html.twig', []);
   }
 }
