@@ -1,0 +1,15 @@
+group:
+  name:
+    not_blank: "Please enter a group name."
+  group_email:
+    email: "Please enter a valid group email address."
+
+user:
+  email_address:
+    email: "Please enter a valid email address."
+    not_blank: "Please enter an email address."
+  first_name:
+    not_blank: "Please enter a first name."
+  last_name:
+    not_blank: "Please enter a last name."
+  

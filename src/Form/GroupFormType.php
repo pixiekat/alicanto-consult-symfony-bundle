@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as FormTypes;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class GroupFormType extends AbstractType {
   public function buildForm(FormBuilderInterface $builder, array $options): void {
@@ -21,6 +21,7 @@ class GroupFormType extends AbstractType {
         'required' => false,
       ])
       ->add('groupPreferences', Form\GroupPreferencesFormType::class, [
+        'error_bubbling' => true,
         'label' => 'Group Preferences',
       ])
       ->add('submit', FormTypes\SubmitType::class, [

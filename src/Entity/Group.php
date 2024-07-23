@@ -5,6 +5,7 @@ namespace Pixiekat\AlicantoConsult\Entity;
 use Pixiekat\AlicantoConsult\Entity;
 use Pixiekat\AlicantoConsult\Repository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: Repository\GroupRepository::class)]
 #[ORM\Table(name: "consult_groups")]
@@ -15,12 +16,14 @@ class Group {
   private $id;
 
   #[ORM\Column(type: "string", length: 255)]
+  #[Assert\NotBlank(message: "group.name.not_blank")]
   private $name;
 
   #[ORM\Column(type: "string", length: 255, nullable: true)]
   private $description;
 
   #[ORM\Column(type: "string", length: 255, nullable: true)]
+  #[Assert\Email(message: "group.group_email.email")]
   private $groupEmail;
 
   #[Assert\Type(type: Entity\GroupPreferences::class)]

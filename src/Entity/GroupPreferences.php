@@ -5,6 +5,7 @@ namespace Pixiekat\AlicantoConsult\Entity;
 use Pixiekat\AlicantoConsult\Entity;
 use Pixiekat\AlicantoConsult\Repository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: Repository\GroupPreferencesRepository::class)]
 #[ORM\Table(name: "consult_group_preferences")]
