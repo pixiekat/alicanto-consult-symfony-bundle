@@ -12,9 +12,14 @@ class AlicantoConsultTwigRuntime implements RuntimeExtensionInterface {
    */
   public function __construct(
     private Services\GroupManager $groupManager,
+    private Services\UserManager $userManager,
   ) { }
 
   public function getGroupManager() {
     return $this->groupManager;
+  }
+
+  public function getUserManager() {
+    return $this->userManager;
   }
 }

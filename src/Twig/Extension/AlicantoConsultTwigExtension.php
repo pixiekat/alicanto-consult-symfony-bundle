@@ -17,6 +17,7 @@ class AlicantoConsultTwigExtension extends AbstractExtension {
   public function getFunctions(): array {
     return [
       new TwigFunction('get_group_manager', [AlicantoConsultTwigRuntime::class, 'getGroupManager']),
+      new TwigFunction('get_user_manager', [AlicantoConsultTwigRuntime::class, 'getUserManager']),
     ];
   }
 }
