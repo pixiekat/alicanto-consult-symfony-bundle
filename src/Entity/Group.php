@@ -4,6 +4,8 @@ namespace Pixiekat\AlicantoConsult\Entity;
 
 use Pixiekat\AlicantoConsult\Entity;
 use Pixiekat\AlicantoConsult\Repository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,6 +33,24 @@ class Group {
   #[ORM\OneToOne(mappedBy: 'group', cascade: ['persist', 'remove'])]
   private ?Entity\GroupPreferences $groupPreferences = null;
 
+  #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'groupMemberships')]
+  #[ORM\JoinTable(name: "consult_group_members")]
+  #[ORM\JoinColumn(name: "group_id", referencedColumnName: "id")]
+  #[ORM\InverseJoinColumn(name: "user_id", referencedColumnName: "id")]
+  private Collection $groupMembers;
+
+  public function __construct() {
+    $this->groupMembers = new ArrayCollection();
+  }
+
+  public function addGroupMember(User $groupMember): static {
+    if (!$this->groupMembers->contains($groupMember)) {
+      $this->groupMembers->add($groupMember);
+    }
+
+    return $this;
+  }
+
   public function getId(): ?int {
     return $this->id;
   }
@@ -47,8 +67,18 @@ class Group {
     return $this->groupEmail;
   }
 
+  public function getGroupMembers(): Collection {
+    return $this->groupMembers;
+  }
+
   public function getGroupPreferences(): ?Entity\GroupPreferences {
     return $this->groupPreferences;
+  }
+
+  public function removeGroupMember(User $groupMember): static {
+    $this->groupMembers->removeElement($groupMember);
+
+    return $this;
   }
 
   public function setName(string $name): self {

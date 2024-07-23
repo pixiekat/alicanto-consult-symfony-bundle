@@ -2,18 +2,19 @@
 declare(strict_types=1);
 namespace Pixiekat\AlicantoConsult\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Pixiekat\AlicantoConsult\Entity;
+use Symfony\Component\Form\FormError;
 use Pixiekat\AlicantoConsult\Form;
+use Pixiekat\AlicantoConsult\Entity;
 use Pixiekat\AlicantoConsult\Services;
 use Psr\Log\LoggerInterface as Logger;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Component\Form\Extension\Core\Type as FormTypes;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Form\Extension\Core\Type as FormTypes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GroupController extends AbstractController {
 
@@ -44,15 +45,25 @@ class GroupController extends AbstractController {
     $form = $this->createForm(Form\GroupFormType::class, $group);
     $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-      $this->groupManager->setGroup($group);
-      $result = $this->groupManager->add($group);
-      if (!$result) {
-        $this->addFlash('error', 'Failed to add group');
-        return $this->redirectToRoute('alicanto_consult_groups_add');
-      }
-      $this->addFlash('success', 'Group added successfully');
+    if ($form->isSubmitted() && $form->get('cancel')->isClicked()) {
       return $this->redirectToRoute('alicanto_consult_groups_list');
+    }
+
+    if ($form->isSubmitted() && $form->isValid()) {
+      try {
+        $this->groupManager->setGroup($group);
+        $result = $this->groupManager->add($group);
+        if (!$result) {
+          $this->addFlash('error', 'Failed to add group');
+          return $this->redirectToRoute('alicanto_consult_groups_list');
+        }
+        $this->addFlash('success', 'Group added successfully');
+        return $this->redirectToRoute('alicanto_consult_groups_list');
+      }
+      catch (\Exception $e) {
+        $this->logger->error('Failed to add group: ' . $e->getMessage());
+        $this->addFlash('error', 'Failed to add group');
+      }
     }
     return $this->render('@PixiekatAlicantoConsult/groups/add.html.twig', [
       'form' => $form->createView(),
